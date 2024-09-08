@@ -1,3 +1,5 @@
+import datetime
+import calendar
 import json
 import requests
 import urllib.request
@@ -46,3 +48,22 @@ def get_weather_data(latitude, longitude, units, period):
             }
 
     return today_data if period == "today" else forecast_data
+
+
+def get_time_data():
+    today = datetime.datetime.today()
+    day, weekday, month = today.day, today.weekday(), today.month
+
+    weekday_name = calendar.day_name[weekday][:3]
+    month_name = calendar.month_name[month]
+    match day % 10:
+        case 1:
+            suffix = "st"
+        case 2:
+            suffix = "nd"
+        case 3:
+            suffix = "rd"
+        case _:
+            suffix = "th"
+
+    return weekday_name, day, suffix, month_name

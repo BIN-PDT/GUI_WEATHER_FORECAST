@@ -5,9 +5,14 @@ from supports import *
 
 
 class App(ctk.CTk):
-    def __init__(self):
-        super().__init__()
+    def __init__(self, city, country, today_data, forecast_data):
+        # DATA.
+        self.LOCATION = {"city": city, "country": country}
+        self.TODAY_DATA = today_data
+        self.FORECAST_DATA = forecast_data
+        self.COLORS = WEATHER_DATA[today_data["weather"]]
         # SETUP.
+        super().__init__(fg_color=self.COLORS["main"])
         self.geometry("600x250")
         self.minsize(600, 250)
         self.iconbitmap("images/others/empty.ico")
@@ -20,7 +25,7 @@ class App(ctk.CTk):
         self.break_height.trace_add("write", self.update_layout)
         self.bind("<Configure>", self.check_responsive)
         # RESPONSIVE LAYOUT.
-        self.layout = MinLayout(self)
+        self.layout = MinLayout(self, self.LOCATION, self.TODAY_DATA, self.COLORS)
 
     def check_responsive(self, event):
         if event.widget == self:
@@ -53,7 +58,7 @@ class App(ctk.CTk):
             self.layout = WideLayout(self)
         # MIN LAYOUT.
         elif not self.break_width.get() and not self.break_height.get():
-            self.layout = MinLayout(self)
+            self.layout = MinLayout(self, self.LOCATION, self.TODAY_DATA, self.COLORS)
 
 
 if __name__ == "__main__":
@@ -65,4 +70,9 @@ if __name__ == "__main__":
     TODAY_DATA = get_weather_data(LATITUDE, LONGITUDE, "metric", "today")
     FORECAST_DATA = get_weather_data(LATITUDE, LONGITUDE, "metric", "forecast")
 
-    App().mainloop()
+    App(
+        city=CITY,
+        country=COUNTRY,
+        today_data=TODAY_DATA,
+        forecast_data=FORECAST_DATA,
+    ).mainloop()

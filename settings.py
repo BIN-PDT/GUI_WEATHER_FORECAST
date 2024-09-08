@@ -2,8 +2,8 @@
 API_KEY = "588ca85a13bc8a38058e369cb931863a"
 BASE_URL = "https://api.openweathermap.org/data/2.5/forecast?"
 # DEFAULT LOCATION DATA.
-CITY = "TP. Hồ Chí Minh"
-COUNTRY = "Việt Nam"
+CITY = "Ho Chi Minh City"
+COUNTRY = "Vietnam"
 LATITUDE = 10.840952594751219
 LONGITUDE = 106.6237386874502
 # COLORS & IMAGE PATH.
