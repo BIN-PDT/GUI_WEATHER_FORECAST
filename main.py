@@ -1,6 +1,7 @@
 import customtkinter as ctk
 from settings import *
 from layouts import *
+from supports import *
 
 
 class App(ctk.CTk):
@@ -56,4 +57,12 @@ class App(ctk.CTk):
 
 
 if __name__ == "__main__":
+    # LOCATION INFORMATION.
+    LOCATION_DATA = get_location_data()
+    if LOCATION_DATA:
+        CITY, COUNTRY, LATITUDE, LONGITUDE = LOCATION_DATA
+    # WEATHER INFORMATION.
+    TODAY_DATA = get_weather_data(LATITUDE, LONGITUDE, "metric", "today")
+    FORECAST_DATA = get_weather_data(LATITUDE, LONGITUDE, "metric", "forecast")
+
     App().mainloop()
