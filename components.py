@@ -1,4 +1,5 @@
 import customtkinter as ctk
+from graphics import *
 from supports import *
 
 
@@ -63,7 +64,7 @@ class DatePanel(ctk.CTkFrame):
 
 # TEMPERATURE & DATE HORIZONTALLY.
 class HorizontalForecastPanel(ctk.CTkFrame):
-    def __init__(self, parent, row, column, rowspan, data, colors):
+    def __init__(self, parent, row, column, rowspan, data, colors, images):
         super().__init__(master=parent, fg_color="#FFF", corner_radius=0)
         self.grid(
             row=row, column=column, rowspan=rowspan, sticky=ctk.NSEW, padx=6, pady=6
@@ -80,6 +81,8 @@ class HorizontalForecastPanel(ctk.CTkFrame):
             frame.rowconfigure(0, weight=5, uniform="A")
             frame.rowconfigure(1, weight=2, uniform="A")
             frame.rowconfigure(2, weight=1, uniform="A")
+
+            StaticImage(frame, 0, 0, images[index])
 
             ctk.CTkLabel(
                 master=frame,
@@ -158,7 +161,7 @@ class SimpleTallPanel(ctk.CTkFrame):
 
 # TEMPERATURE & DATE VERTICALLY.
 class VerticalForecastPanel(ctk.CTkFrame):
-    def __init__(self, parent, row, column, data, colors):
+    def __init__(self, parent, row, column, data, colors, images):
         super().__init__(master=parent, fg_color="#FFF", corner_radius=0)
         self.grid(row=row, column=column, sticky=ctk.NSEW, padx=6, pady=6)
         # WIDGET.
@@ -185,6 +188,8 @@ class VerticalForecastPanel(ctk.CTkFrame):
                 text_color=colors["text"],
                 font=("Rockwell Condensed", 20),
             ).grid(row=0, column=2)
+
+            StaticImage(frame, 0, 3, images[index])
             # DIVIDER.
             if index < len(data) - 1:
                 ctk.CTkFrame(

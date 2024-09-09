@@ -16,7 +16,9 @@ class MinLayout(ctk.CTkFrame):
 
 
 class WideLayout(ctk.CTkFrame):
-    def __init__(self, parent, location, today_data, forecast_data, colors):
+    def __init__(
+        self, parent, location, today_data, forecast_data, colors, forecast_images
+    ):
         super().__init__(master=parent, fg_color="transparent")
         self.pack(expand=ctk.TRUE, fill=ctk.BOTH)
         # LAYOUT.
@@ -27,11 +29,13 @@ class WideLayout(ctk.CTkFrame):
         # WIDGET.
         SimplePanel(self, 0, 0, today_data, colors)
         DatePanel(self, 1, 0, location, colors)
-        HorizontalForecastPanel(self, 0, 1, 2, forecast_data, colors)
+        HorizontalForecastPanel(self, 0, 1, 2, forecast_data, colors, forecast_images)
 
 
 class TallLayout(ctk.CTkFrame):
-    def __init__(self, parent, location, today_data, forecast_data, colors):
+    def __init__(
+        self, parent, location, today_data, forecast_data, colors, forecast_images
+    ):
         super().__init__(master=parent, fg_color="transparent")
         self.pack(expand=ctk.TRUE, fill=ctk.BOTH)
         # LAYOUT.
@@ -40,11 +44,13 @@ class TallLayout(ctk.CTkFrame):
         self.columnconfigure(0, weight=1, uniform="A")
         # WIDGET.
         SimpleTallPanel(self, 0, 0, location, today_data, colors)
-        HorizontalForecastPanel(self, 1, 0, 1, forecast_data, colors)
+        HorizontalForecastPanel(self, 1, 0, 1, forecast_data, colors, forecast_images)
 
 
 class MaxLayout(ctk.CTkFrame):
-    def __init__(self, parent, location, today_data, forecast_data, colors):
+    def __init__(
+        self, parent, location, today_data, forecast_data, colors, forecast_images
+    ):
         super().__init__(master=parent, fg_color="transparent")
         self.pack(expand=ctk.TRUE, fill=ctk.BOTH)
         # LAYOUT.
@@ -52,4 +58,4 @@ class MaxLayout(ctk.CTkFrame):
         self.columnconfigure((0, 1), weight=1, uniform="A")
         # COMPONENT.
         SimpleTallPanel(self, 0, 0, location, today_data, colors)
-        VerticalForecastPanel(self, 0, 1, forecast_data, colors)
+        VerticalForecastPanel(self, 0, 1, forecast_data, colors, forecast_images)

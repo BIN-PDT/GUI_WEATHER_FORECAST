@@ -1,4 +1,5 @@
 import customtkinter as ctk
+from PIL import Image
 from settings import *
 from layouts import *
 from supports import *
@@ -11,6 +12,10 @@ class App(ctk.CTk):
         self.TODAY_DATA = today_data
         self.FORECAST_DATA = forecast_data
         self.COLORS = WEATHER_DATA[today_data["weather"]]
+        self.FORECAST_IMAGES = [
+            Image.open(f"images/ui/{data['weather'].lower()}.png")
+            for data in forecast_data.values()
+        ]
         # SETUP.
         super().__init__(fg_color=self.COLORS["main"])
         self.geometry("600x250")
@@ -50,28 +55,48 @@ class App(ctk.CTk):
         # MAX LAYOUT.
         if self.break_width.get() and self.break_height.get():
             self.layout = MaxLayout(
-                self, self.LOCATION, self.TODAY_DATA, self.FORECAST_DATA, self.COLORS
+                self,
+                self.LOCATION,
+                self.TODAY_DATA,
+                self.FORECAST_DATA,
+                self.COLORS,
+                self.FORECAST_IMAGES,
             )
         # TALL LAYOUT.
         elif not self.break_width.get() and self.break_height.get():
             self.layout = TallLayout(
-                self, self.LOCATION, self.TODAY_DATA, self.FORECAST_DATA, self.COLORS
+                self,
+                self.LOCATION,
+                self.TODAY_DATA,
+                self.FORECAST_DATA,
+                self.COLORS,
+                self.FORECAST_IMAGES,
             )
         # WIDE LAYOUT.
         elif self.break_width.get() and not self.break_height.get():
             self.layout = WideLayout(
-                self, self.LOCATION, self.TODAY_DATA, self.FORECAST_DATA, self.COLORS
+                self,
+                self.LOCATION,
+                self.TODAY_DATA,
+                self.FORECAST_DATA,
+                self.COLORS,
+                self.FORECAST_IMAGES,
             )
         # MIN LAYOUT.
         elif not self.break_width.get() and not self.break_height.get():
-            self.layout = MinLayout(self, self.LOCATION, self.TODAY_DATA, self.COLORS)
+            self.layout = MinLayout(
+                self,
+                self.LOCATION,
+                self.TODAY_DATA,
+                self.COLORS,
+            )
 
 
 if __name__ == "__main__":
     # LOCATION INFORMATION.
-    LOCATION_DATA = get_location_data()
-    if LOCATION_DATA:
-        CITY, COUNTRY, LATITUDE, LONGITUDE = LOCATION_DATA
+    # LOCATION_DATA = get_location_data()
+    # if LOCATION_DATA:
+    #     CITY, COUNTRY, LATITUDE, LONGITUDE = LOCATION_DATA
     # WEATHER INFORMATION.
     TODAY_DATA = get_weather_data(LATITUDE, LONGITUDE, "metric", "today")
     FORECAST_DATA = get_weather_data(LATITUDE, LONGITUDE, "metric", "forecast")
