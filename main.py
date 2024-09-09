@@ -55,7 +55,9 @@ class App(ctk.CTk):
             self.layout = TallLayout(self)
         # WIDE LAYOUT.
         elif self.break_width.get() and not self.break_height.get():
-            self.layout = WideLayout(self)
+            self.layout = WideLayout(
+                self, self.LOCATION, self.TODAY_DATA, self.FORECAST_DATA, self.COLORS
+            )
         # MIN LAYOUT.
         elif not self.break_width.get() and not self.break_height.get():
             self.layout = MinLayout(self, self.LOCATION, self.TODAY_DATA, self.COLORS)
