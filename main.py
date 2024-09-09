@@ -60,6 +60,7 @@ class App(ctk.CTk):
     def update_layout(self, *args):
         # DELETE THE PREVIOUS LAYOUT.
         self.layout.pack_forget()
+        self.layout.destroy()
         # MAX LAYOUT.
         if self.break_width.get() and self.break_height.get():
             self.layout = MaxLayout(

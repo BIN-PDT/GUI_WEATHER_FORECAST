@@ -73,7 +73,10 @@ class AnimatedImage(ctk.CTkCanvas):
         self.image_width = self.image_height = 0
         # EVENT.
         self.bind("<Configure>", self.resize)
-        self.after(150, self.animate)
+        self.animation_event = self.after(42, self.animate)
+
+    def __del__(self):
+        self.after_cancel(self.animation_event)
 
     def animate(self):
         self.image_index += 1
@@ -82,7 +85,7 @@ class AnimatedImage(ctk.CTkCanvas):
         self.image = self.animations[self.image_index]
 
         self.update_image()
-        self.after(42, self.animate)
+        self.animation_event = self.after(42, self.animate)
 
     def resize(self, event):
         # CURRENT RATIO.
@@ -96,10 +99,16 @@ class AnimatedImage(ctk.CTkCanvas):
         else:
             self.image_width = int(self.canvas_width)
             self.image_height = int(self.image_width / self.image_ratio)
+        # SHOW IMAGE.
+        self.update_image()
 
     def update_image(self):
         # CUSTOMIZED IMAGE.
-        resized_image = self.image.resize((self.image_width, self.image_height))
+        resized_image = (
+            self.image.resize((self.image_width, self.image_height))
+            if self.image_width > 0 and self.image_height > 0
+            else self.image
+        )
         self.image_tk = ImageTk.PhotoImage(resized_image)
         # DISCARD BEFORE DRAW.
         self.delete(ctk.ALL)
