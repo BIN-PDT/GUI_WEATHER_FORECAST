@@ -75,7 +75,7 @@ class HorizontalForecastPanel(ctk.CTkFrame):
         for index, (key, value) in enumerate(data.items()):
             # DATA.
             weekday = calendar.weekday(*map(lambda e: int(e), str.split(key, "-")))
-            weekday_name = calendar.day_name[weekday][:3]
+            weekday_name = calendar.day_name[weekday]
             # FRAME.
             frame = ctk.CTkFrame(master=self, fg_color="transparent")
             frame.pack(side=ctk.LEFT, expand=ctk.TRUE, fill=ctk.BOTH, padx=5, pady=5)
@@ -184,7 +184,7 @@ class VerticalForecastPanel(ctk.CTkFrame):
                 text=weekday_name,
                 text_color=colors["text"],
                 font=("Rockwell Condensed", 16),
-            ).grid(row=0, column=0, sticky=ctk.E)
+            ).grid(row=0, column=0, sticky=ctk.W, padx=20)
 
             ctk.CTkLabel(
                 master=frame,

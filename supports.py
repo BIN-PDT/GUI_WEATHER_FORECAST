@@ -31,8 +31,11 @@ def get_location_data():
 
 def get_weather_data(latitude, longitude, units, period):
     # CALL API.
-    url = f"{BASE_URL}&lat={latitude}&lon={longitude}&units={units}&appid={API_KEY}"
-    respone = requests.get(url)
+    try:
+        url = f"{BASE_URL}&lat={latitude}&lon={longitude}&units={units}&appid={API_KEY}"
+        respone = requests.get(url)
+    except:
+        return None
     # GET DATA.
     today_data = {}
     forecast_data = {}
