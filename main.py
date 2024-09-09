@@ -1,5 +1,4 @@
 import customtkinter as ctk
-from PIL import Image
 from settings import *
 from layouts import *
 from supports import *
@@ -15,7 +14,7 @@ class App(ctk.CTk):
 
         self.TODAY_ANIMATION = import_image_folder(self.COLORS["path"])
         self.FORECAST_IMAGES = [
-            Image.open(f"images/ui/{data['weather'].lower()}.png")
+            import_image("images", "ui", data["weather"].lower())
             for data in forecast_data.values()
         ]
         # SETUP.

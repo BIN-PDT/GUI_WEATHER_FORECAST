@@ -1,21 +1,23 @@
+import os
 import datetime
 import calendar
 import json
 import requests
 import urllib.request
-from os import walk
 from PIL import Image
 from settings import *
 
 
-def import_image_folder(path):
-    for folder_path, _, file_names in walk(path):
-        return [
-            Image.open(f"{folder_path}/{file_name}")
-            for file_name in sorted(
-                file_names, key=lambda item: int(item.split(".")[0])
-            )
-        ]
+def import_image(*path, format="png"):
+    return Image.open(f"{os.path.join(*path)}.{format}")
+
+
+def import_image_folder(*path):
+    images = []
+    for folder_path, _, file_names in os.walk(os.path.join(*path)):
+        for file_name in sorted(file_names, key=lambda item: int(item.split(".")[0])):
+            images.append(import_image(folder_path, file_name.split(".")[0]))
+    return images
 
 
 def get_location_data():
