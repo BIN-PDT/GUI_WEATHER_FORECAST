@@ -49,7 +49,9 @@ class App(ctk.CTk):
         self.layout.pack_forget()
         # MAX LAYOUT.
         if self.break_width.get() and self.break_height.get():
-            self.layout = MaxLayout(self)
+            self.layout = MaxLayout(
+                self, self.LOCATION, self.TODAY_DATA, self.FORECAST_DATA, self.COLORS
+            )
         # TALL LAYOUT.
         elif not self.break_width.get() and self.break_height.get():
             self.layout = TallLayout(

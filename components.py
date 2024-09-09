@@ -154,3 +154,39 @@ class SimpleTallPanel(ctk.CTkFrame):
             text_color=colors["text"],
             font=("Rockwell Condensed", 20),
         ).pack()
+
+
+# TEMPERATURE & DATE VERTICALLY.
+class VerticalForecastPanel(ctk.CTkFrame):
+    def __init__(self, parent, row, column, data, colors):
+        super().__init__(master=parent, fg_color="#FFF", corner_radius=0)
+        self.grid(row=row, column=column, sticky=ctk.NSEW, padx=6, pady=6)
+        # WIDGET.
+        for index, (key, value) in enumerate(data.items()):
+            # DATA.
+            weekday = calendar.weekday(*map(lambda e: int(e), str.split(key, "-")))
+            weekday_name = calendar.day_name[weekday]
+            # FRAME.
+            frame = ctk.CTkFrame(master=self, fg_color="transparent")
+            frame.pack(expand=ctk.TRUE, fill=ctk.BOTH, padx=5, pady=5)
+            frame.rowconfigure(0, weight=1, uniform="A")
+            frame.columnconfigure((0, 1, 2, 3), weight=1, uniform="A")
+
+            ctk.CTkLabel(
+                master=frame,
+                text=weekday_name,
+                text_color=colors["text"],
+                font=("Rockwell Condensed", 16),
+            ).grid(row=0, column=0, sticky=ctk.E)
+
+            ctk.CTkLabel(
+                master=frame,
+                text=f"{value['temp']}\N{DEGREE SIGN}",
+                text_color=colors["text"],
+                font=("Rockwell Condensed", 20),
+            ).grid(row=0, column=2)
+            # DIVIDER.
+            if index < len(data) - 1:
+                ctk.CTkFrame(
+                    master=self, height=2, fg_color=colors["divider color"]
+                ).pack(side=ctk.TOP, fill=ctk.X)
