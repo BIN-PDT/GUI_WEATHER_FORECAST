@@ -35,6 +35,8 @@ class DatePanel(ctk.CTkFrame):
         self.grid(row=row, column=column, sticky=ctk.NSEW)
         # WIDGET.
         frame = ctk.CTkFrame(master=self, fg_color="transparent")
+        frame.pack(side=ctk.LEFT, padx=10)
+
         ctk.CTkLabel(
             master=frame,
             text=f"{data['city']}",
@@ -48,7 +50,6 @@ class DatePanel(ctk.CTkFrame):
             text_color=colors["text"],
             font=("Rockwell Condensed", 16),
         ).pack(side=ctk.LEFT)
-        frame.pack(side=ctk.LEFT, padx=10)
 
         weekday_name, day, suffix, month_name = get_time_data()
         ctk.CTkLabel(
@@ -74,6 +75,7 @@ class HorizontalForecastPanel(ctk.CTkFrame):
             weekday_name = calendar.day_name[weekday][:3]
             # FRAME.
             frame = ctk.CTkFrame(master=self, fg_color="transparent")
+            frame.pack(side=ctk.LEFT, expand=ctk.TRUE, fill=ctk.BOTH, padx=5, pady=5)
             frame.columnconfigure(0, weight=1, uniform="A")
             frame.rowconfigure(0, weight=5, uniform="A")
             frame.rowconfigure(1, weight=2, uniform="A")
@@ -84,17 +86,71 @@ class HorizontalForecastPanel(ctk.CTkFrame):
                 text=f"{value['temp']}\N{DEGREE SIGN}",
                 text_color=colors["text"],
                 font=("Rockwell Condensed", 20),
-            ).grid(column=0, row=1, sticky=ctk.N)
+            ).grid(row=1, column=0, sticky=ctk.N)
 
             ctk.CTkLabel(
                 master=frame,
                 text=weekday_name,
                 text_color=colors["text"],
                 font=("Rockwell Condensed", 16),
-            ).grid(column=0, row=2)
-            frame.pack(side=ctk.LEFT, expand=ctk.TRUE, fill=ctk.BOTH, padx=5, pady=5)
+            ).grid(row=2, column=0)
             # DIVIDER.
             if index < len(data) - 1:
                 ctk.CTkFrame(
                     master=self, width=2, fg_color=colors["divider color"]
                 ).pack(side=ctk.LEFT, fill=ctk.BOTH)
+
+
+# LOCATION & DATE & TEMPERATURE.
+class SimpleTallPanel(ctk.CTkFrame):
+    def __init__(self, parent, row, column, location, weather, colors):
+        super().__init__(master=parent, fg_color=colors["main"], corner_radius=0)
+        self.grid(row=row, column=column, sticky=ctk.NSEW)
+        # LAYOUT.
+        self.rowconfigure((0, 2, 4), weight=1, uniform="A")
+        self.rowconfigure(1, weight=2, uniform="A")
+        self.rowconfigure((3, 5), weight=6, uniform="A")
+        self.columnconfigure(0, weight=1, uniform="A")
+        # LOCATION & DATE.
+        frame = ctk.CTkFrame(master=self, fg_color="transparent")
+        frame.grid(row=1, column=0, padx=5, pady=5)
+
+        weekday_name, day, suffix, month_name = get_time_data()
+        ctk.CTkLabel(
+            master=frame,
+            fg_color="transparent",
+            text=f"{weekday_name}, {day}{suffix} {month_name}",
+            text_color=colors["text"],
+            font=("Rockwell Condensed", 16),
+        ).pack(side=ctk.BOTTOM)
+
+        ctk.CTkLabel(
+            master=frame,
+            text=f"{location['city']}",
+            text_color=colors["text"],
+            font=("Rockwell Condensed", 16, "bold"),
+        ).pack(side=ctk.LEFT)
+
+        ctk.CTkLabel(
+            master=frame,
+            text=f", {location['country']}",
+            text_color=colors["text"],
+            font=("Rockwell Condensed", 16),
+        ).pack(side=ctk.LEFT)
+        # TEMPERATURE.
+        frame = ctk.CTkFrame(master=self, fg_color="transparent")
+        frame.grid(row=5, column=0)
+
+        ctk.CTkLabel(
+            master=frame,
+            text=f"{weather['temp']}\N{DEGREE SIGN}",
+            text_color=colors["text"],
+            font=("Rockwell Condensed", 72),
+        ).pack()
+
+        ctk.CTkLabel(
+            master=frame,
+            text=f"Feels like: {weather['feels_like']}\N{DEGREE SIGN}",
+            text_color=colors["text"],
+            font=("Rockwell Condensed", 20),
+        ).pack()
