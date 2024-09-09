@@ -3,7 +3,19 @@ import calendar
 import json
 import requests
 import urllib.request
+from os import walk
+from PIL import Image
 from settings import *
+
+
+def import_image_folder(path):
+    for folder_path, _, file_names in walk(path):
+        return [
+            Image.open(f"{folder_path}/{file_name}")
+            for file_name in sorted(
+                file_names, key=lambda item: int(item.split(".")[0])
+            )
+        ]
 
 
 def get_location_data():

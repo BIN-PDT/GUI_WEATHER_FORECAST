@@ -5,7 +5,7 @@ from supports import *
 
 # TEMPERATURE.
 class SimplePanel(ctk.CTkFrame):
-    def __init__(self, parent, row, column, data, colors):
+    def __init__(self, parent, row, column, data, colors, animations):
         super().__init__(master=parent, fg_color=colors["main"], corner_radius=0)
         self.grid(row=row, column=column, sticky=ctk.NSEW)
         # LAYOUT.
@@ -27,6 +27,8 @@ class SimplePanel(ctk.CTkFrame):
             font=("Rockwell Condensed", 20),
         ).pack()
         frame.grid(row=0, column=0)
+
+        AnimatedImage(self, 0, 1, colors["main"], animations)
 
 
 # LOCATION & DATE.
@@ -106,7 +108,7 @@ class HorizontalForecastPanel(ctk.CTkFrame):
 
 # LOCATION & DATE & TEMPERATURE.
 class SimpleTallPanel(ctk.CTkFrame):
-    def __init__(self, parent, row, column, location, weather, colors):
+    def __init__(self, parent, row, column, location, weather, colors, animations):
         super().__init__(master=parent, fg_color=colors["main"], corner_radius=0)
         self.grid(row=row, column=column, sticky=ctk.NSEW)
         # LAYOUT.
@@ -140,6 +142,8 @@ class SimpleTallPanel(ctk.CTkFrame):
             text_color=colors["text"],
             font=("Rockwell Condensed", 16),
         ).pack(side=ctk.LEFT)
+        # ANIMATION.
+        AnimatedImage(self, 3, 0, colors["main"], animations)
         # TEMPERATURE.
         frame = ctk.CTkFrame(master=self, fg_color="transparent")
         frame.grid(row=5, column=0)

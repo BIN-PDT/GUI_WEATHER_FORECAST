@@ -12,6 +12,8 @@ class App(ctk.CTk):
         self.TODAY_DATA = today_data
         self.FORECAST_DATA = forecast_data
         self.COLORS = WEATHER_DATA[today_data["weather"]]
+
+        self.TODAY_ANIMATION = import_image_folder(self.COLORS["path"])
         self.FORECAST_IMAGES = [
             Image.open(f"images/ui/{data['weather'].lower()}.png")
             for data in forecast_data.values()
@@ -30,7 +32,13 @@ class App(ctk.CTk):
         self.break_height.trace_add("write", self.update_layout)
         self.bind("<Configure>", self.check_responsive)
         # RESPONSIVE LAYOUT.
-        self.layout = MinLayout(self, self.LOCATION, self.TODAY_DATA, self.COLORS)
+        self.layout = MinLayout(
+            self,
+            self.LOCATION,
+            self.TODAY_DATA,
+            self.COLORS,
+            self.TODAY_ANIMATION,
+        )
 
     def check_responsive(self, event):
         if event.widget == self:
@@ -61,6 +69,7 @@ class App(ctk.CTk):
                 self.FORECAST_DATA,
                 self.COLORS,
                 self.FORECAST_IMAGES,
+                self.TODAY_ANIMATION,
             )
         # TALL LAYOUT.
         elif not self.break_width.get() and self.break_height.get():
@@ -71,6 +80,7 @@ class App(ctk.CTk):
                 self.FORECAST_DATA,
                 self.COLORS,
                 self.FORECAST_IMAGES,
+                self.TODAY_ANIMATION,
             )
         # WIDE LAYOUT.
         elif self.break_width.get() and not self.break_height.get():
@@ -81,6 +91,7 @@ class App(ctk.CTk):
                 self.FORECAST_DATA,
                 self.COLORS,
                 self.FORECAST_IMAGES,
+                self.TODAY_ANIMATION,
             )
         # MIN LAYOUT.
         elif not self.break_width.get() and not self.break_height.get():
@@ -89,14 +100,15 @@ class App(ctk.CTk):
                 self.LOCATION,
                 self.TODAY_DATA,
                 self.COLORS,
+                self.TODAY_ANIMATION,
             )
 
 
 if __name__ == "__main__":
     # LOCATION INFORMATION.
-    # LOCATION_DATA = get_location_data()
-    # if LOCATION_DATA:
-    #     CITY, COUNTRY, LATITUDE, LONGITUDE = LOCATION_DATA
+    LOCATION_DATA = get_location_data()
+    if LOCATION_DATA:
+        CITY, COUNTRY, LATITUDE, LONGITUDE = LOCATION_DATA
     # WEATHER INFORMATION.
     TODAY_DATA = get_weather_data(LATITUDE, LONGITUDE, "metric", "today")
     FORECAST_DATA = get_weather_data(LATITUDE, LONGITUDE, "metric", "forecast")
